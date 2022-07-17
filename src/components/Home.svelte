@@ -2,7 +2,7 @@
     import Header from "./Header.svelte";
     import Main from "./Main.svelte";
 
-    let openedScreen = "movies";
+    let openedScreen = "subscriptions";
 
     const openMovieScreen = () => {
         openedScreen = "movies";

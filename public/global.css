@@ -4,6 +4,11 @@ html, body {
 	height: 100%;
 }
 
+.title {
+	text-align: center;
+ }
+ 
+
 body {
 	color: #333;
 	margin: 0;
