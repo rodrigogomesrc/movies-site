@@ -2,13 +2,29 @@
     import Subscription from "./Subscription.svelte";
     import Subscribe from "./Subscribe.svelte";
     import Notification from "./Notification.svelte";
-    import MoviesHeader from "./MoviesNotificationHeader.svelte";
+    import MoviesHeader from "./MoviesHeader.svelte";
 
-    let movie = {
-        title: "The Shawshank Redemption",
-        genre: "Drama",
-        channel: "Netflix",
-        date: "14/10/1994"
+    import { onMount } from 'svelte';
+    import { getNotifications, 
+        removeNotification, 
+        subscribeToGenre, 
+        unsubscribeFromGenre, 
+        getSubscriptions } from '../services/api';
+
+    let notifications = [];
+    let subscriptions = [];
+
+    onMount(async () => {
+        notifications = await getNotifications();
+        subscriptions = await getSubscriptions();
+        console.log("subscriptions");
+        console.log(subscriptions);
+    });
+
+    const delNotification = async (id) => {
+        let response = await removeNotification(id);
+        notifications = await getNotifications();
+       
     };
 
 </script>
@@ -20,17 +36,17 @@
             <h2>Adicionar Inscrição</h2>
             <Subscribe />
             <h2>Subscrições</h2>
-            <Subscription genre="Ação" />
-            <Subscription genre="Aventura" />
-            <Subscription genre="Comédia" />
+            {#each subscriptions as genre, index}
+            <Subscription genre={genre} />
+            {/each}
 
         </div>
         <div id="right-side" class="side">
             <h2>Notificações</h2>
             <MoviesHeader />
-            <Notification movie={movie} />
-            <Notification movie={movie} />
-            <Notification movie={movie} />
+            {#each notifications as notification, index}
+            <Notification movie={notification} delNotification={delNotification}/>
+            {/each}
             
         </div>
     </div>

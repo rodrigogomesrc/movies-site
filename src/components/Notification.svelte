@@ -1,6 +1,6 @@
 <script>
 
-    export let removeNotification;
+    export let delNotification;
     export let movie;
 
 </script>
@@ -11,10 +11,10 @@
             <div class="movie-title"><strong>{movie.title}</strong></div>
             <div class="movie-genre">{movie.genre}</div>
             <div class="movie-channel">{movie.channel}</div>
-            <div class="movie-date">{movie.date}</div>
+            <div class="movie-date">{movie.exibitionDate}</div>
         </div>
         <div class="notification-close">
-            <button on:click={() => removeNotification()}>
+            <button on:click={() => delNotification(movie.id)}>
                 Remover
             </button>
         </div>

@@ -1,6 +1,5 @@
 <script>    
     import { onMount } from 'svelte';
-    import { getData } from '../services/api';
 
     import Movies from './Movies.svelte';
     import Subscriptions from './Subscriptions.svelte';
@@ -9,7 +8,7 @@
     export let screen;
 
     onMount(async () => {
-        let data = await getData();
+
         
     });
 
