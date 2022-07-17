@@ -13,7 +13,6 @@
     };
 
     const toggleScreen = () => {
-        console.log("screen being toggled");
         if (openedScreen === "movies") {
             openSubscriptionScreen();
         } else {

@@ -17,14 +17,22 @@
     onMount(async () => {
         notifications = await getNotifications();
         subscriptions = await getSubscriptions();
-        console.log("subscriptions");
-        console.log(subscriptions);
     });
 
     const delNotification = async (id) => {
         let response = await removeNotification(id);
         notifications = await getNotifications();
        
+    };
+
+    const delSubscription = async (id) => {
+        let response = await unsubscribeFromGenre(id);
+        subscriptions = await getSubscriptions();
+    };
+
+    const subscribe = async (genre) => {
+        let response = await subscribeToGenre(genre);
+        subscriptions = await getSubscriptions();
     };
 
 </script>
@@ -34,10 +42,10 @@
     <div id="sides-holder">
         <div id="left-side" class="side">
             <h2>Adicionar Inscrição</h2>
-            <Subscribe />
+            <Subscribe subscribe={subscribe}/>
             <h2>Subscrições</h2>
             {#each subscriptions as genre, index}
-            <Subscription genre={genre} />
+            <Subscription genre={genre} unsubscribe={delSubscription} />
             {/each}
 
         </div>

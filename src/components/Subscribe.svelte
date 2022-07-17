@@ -1,11 +1,18 @@
 <script>
+    let genre;
+    export let subscribe;
+
+    const createNewSubscription = () => {
+        subscribe(genre);
+        genre = "";
+    };
 
 </script>
 
 <main>
     <div id="subscribe">
-        <input type="text" placeholder="Gênero">
-        <button>Inscrever-se</button>
+        <input type="text" placeholder="Gênero" bind:value={genre}>
+        <button on:click={() => createNewSubscription()}>Inscrever-se</button>
     </div>
 
 </main>
