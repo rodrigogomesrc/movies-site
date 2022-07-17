@@ -836,6 +836,8 @@ var app = (function () {
     	let movie3;
     	let t6;
     	let movie4;
+    	let t7;
+    	let movie5;
     	let current;
     	moviesheader = new MoviesHeader({ $$inline: true });
 
@@ -864,6 +866,11 @@ var app = (function () {
     			$$inline: true
     		});
 
+    	movie5 = new Movie({
+    			props: { movie: /*movie*/ ctx[0] },
+    			$$inline: true
+    		});
+
     	const block = {
     		c: function create() {
     			main = element("main");
@@ -881,6 +888,8 @@ var app = (function () {
     			create_component(movie3.$$.fragment);
     			t6 = space();
     			create_component(movie4.$$.fragment);
+    			t7 = space();
+    			create_component(movie5.$$.fragment);
     			attr_dev(h1, "class", "title");
     			add_location(h1, file$8, 15, 4, 275);
     			add_location(main, file$8, 14, 0, 264);
@@ -903,6 +912,8 @@ var app = (function () {
     			mount_component(movie3, main, null);
     			append_dev(main, t6);
     			mount_component(movie4, main, null);
+    			append_dev(main, t7);
+    			mount_component(movie5, main, null);
     			current = true;
     		},
     		p: noop,
@@ -914,6 +925,7 @@ var app = (function () {
     			transition_in(movie2.$$.fragment, local);
     			transition_in(movie3.$$.fragment, local);
     			transition_in(movie4.$$.fragment, local);
+    			transition_in(movie5.$$.fragment, local);
     			current = true;
     		},
     		o: function outro(local) {
@@ -923,6 +935,7 @@ var app = (function () {
     			transition_out(movie2.$$.fragment, local);
     			transition_out(movie3.$$.fragment, local);
     			transition_out(movie4.$$.fragment, local);
+    			transition_out(movie5.$$.fragment, local);
     			current = false;
     		},
     		d: function destroy(detaching) {
@@ -933,6 +946,7 @@ var app = (function () {
     			destroy_component(movie2);
     			destroy_component(movie3);
     			destroy_component(movie4);
+    			destroy_component(movie5);
     		}
     	};
 

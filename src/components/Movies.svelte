@@ -20,6 +20,7 @@
     <Movie movie={movie} />
     <Movie movie={movie} />
     <Movie movie={movie} />
+    <Movie movie={movie} />
 </main>
 
 
