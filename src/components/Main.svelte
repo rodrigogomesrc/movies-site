@@ -2,7 +2,12 @@
     import { onMount } from 'svelte';
     import { getData } from '../services/api';
 
+    import Movies from './Movies.svelte';
+    import Subscriptions from './Subscriptions.svelte';
+
     let from = "main component";
+    export let screen;
+
     onMount(async () => {
         let data = await getData();
         
@@ -12,8 +17,12 @@
 
 <main>
     <div id="container">
-        <h1>Hello from {from}!</h1>
-        <p>this is the subtitle</p>
+        {#if screen === "movies"}
+        <Movies/>
+        {/if}
+        {#if screen === "subscriptions"}
+        <Subscriptions />
+        {/if}
     </div>
   
 </main>

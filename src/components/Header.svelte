@@ -1,12 +1,17 @@
 <script>    
 
-    let from = "main component"
-
+    export let toggleScreen;
+    
 </script>
 
 <main>
    <header id="header">
-        <div id="header-center">Movies</div>
+        <div id="header-center">
+            <div id="header-content">
+                <div class="header-link" on:click={()=> toggleScreen()}>Filmes</div>
+                <div class="header-link" on:click={()=> toggleScreen()}>Inscrições</div>
+            </div>
+        </div>
    </header>
 </main>
 
@@ -15,13 +20,34 @@
     #header {
         background-color: #000;
         color: #fff;
-        padding: 15px;
         text-align: center;
         font-weight: bold;
+        padding-top: 7px;
+        padding-bottom: 7px;
     }
-    
-    #header-center {
-        font-size: 1.5em;
+
+    #header-content {
+        font-size: 1.2em;
+        display: flex;
+        justify-content: space-around;
+        width: 250px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .header-link {
+        color: #fff;
+        text-decoration: none;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .header-link:hover {
+        background-color: #fff;
+        color: #000;
     }
 
 </style>
