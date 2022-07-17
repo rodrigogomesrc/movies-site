@@ -2,7 +2,7 @@
     import Subscription from "./Subscription.svelte";
     import Subscribe from "./Subscribe.svelte";
     import Notification from "./Notification.svelte";
-    import MoviesHeader from "./MoviesHeader.svelte";
+    import MoviesNotificationHeader from "./MoviesNotificationHeader.svelte";
 
     import { onMount } from 'svelte';
     import { getNotifications, 
@@ -51,7 +51,7 @@
         </div>
         <div id="right-side" class="side">
             <h2>Notificações</h2>
-            <MoviesHeader />
+            <MoviesNotificationHeader />
             {#each notifications as notification, index}
             <Notification movie={notification} delNotification={delNotification}/>
             {/each}
