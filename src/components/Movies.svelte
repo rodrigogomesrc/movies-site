@@ -5,10 +5,11 @@
     import { onMount } from 'svelte';
     import { getMovies } from '../services/api';
 
+    export let user;
     let movies = [];
 
     onMount(async () => {
-        movies = await getMovies();
+        movies = await getMovies(user);
     });
 
 </script>

@@ -3,8 +3,11 @@
 
     import Movies from './Movies.svelte';
     import Subscriptions from './Subscriptions.svelte';
+    import Login from './Login.svelte';
 
     let from = "main component";
+    let user = "";
+    let logged = false;
     export let screen;
 
     onMount(async () => {
@@ -12,16 +15,26 @@
         
     });
 
+    const login = (loginUser) => {
+        user = loginUser;
+        logged = true;
+    }
+
 </script>
 
 <main>
     <div id="container">
+        {#if logged}
         {#if screen === "movies"}
-        <Movies/>
+        <Movies user={user}/>
         {/if}
         {#if screen === "subscriptions"}
-        <Subscriptions />
+        <Subscriptions user={user}/>
         {/if}
+        {:else}
+        <Login login={login}/>
+        {/if}
+   
     </div>
   
 </main>
