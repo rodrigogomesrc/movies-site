@@ -22,14 +22,14 @@
     });
 
     const delNotification = async (id) => {
-        let response = await removeNotification(id);
-        notifications = await getNotifications();
+        let response = await removeNotification(id, user);
+        notifications = await getNotifications(user);
        
     };
 
     const delSubscription = async (id) => {
-        let response = await unsubscribeFromGenre(id);
-        subscriptions = await getSubscriptions();
+        let response = await unsubscribeFromGenre(id, user);
+        subscriptions = await getSubscriptions(user);
     };
 
     const subscribe = async (genre) => {

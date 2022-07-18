@@ -1924,20 +1924,20 @@ var app = (function () {
     			}
 
     			attr_dev(h1, "class", "title");
-    			add_location(h1, file$4, 42, 4, 1214);
-    			add_location(h20, file$4, 45, 12, 1330);
-    			add_location(h21, file$4, 47, 12, 1430);
+    			add_location(h1, file$4, 42, 4, 1234);
+    			add_location(h20, file$4, 45, 12, 1350);
+    			add_location(h21, file$4, 47, 12, 1450);
     			attr_dev(div0, "id", "left-side");
     			attr_dev(div0, "class", "side svelte-debqk4");
-    			add_location(div0, file$4, 44, 8, 1284);
-    			add_location(h22, file$4, 54, 12, 1665);
+    			add_location(div0, file$4, 44, 8, 1304);
+    			add_location(h22, file$4, 54, 12, 1685);
     			attr_dev(div1, "id", "right-side");
     			attr_dev(div1, "class", "side svelte-debqk4");
-    			add_location(div1, file$4, 53, 8, 1618);
+    			add_location(div1, file$4, 53, 8, 1638);
     			attr_dev(div2, "id", "sides-holder");
     			attr_dev(div2, "class", "svelte-debqk4");
-    			add_location(div2, file$4, 43, 4, 1252);
-    			add_location(main, file$4, 41, 0, 1203);
+    			add_location(div2, file$4, 43, 4, 1272);
+    			add_location(main, file$4, 41, 0, 1223);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2100,13 +2100,13 @@ var app = (function () {
     	});
 
     	const delNotification = async id => {
-    		await removeNotification(id);
-    		$$invalidate(1, notifications = await getNotifications());
+    		await removeNotification(id, user);
+    		$$invalidate(1, notifications = await getNotifications(user));
     	};
 
     	const delSubscription = async id => {
-    		await unsubscribeFromGenre(id);
-    		$$invalidate(2, subscriptions = await getSubscriptions());
+    		await unsubscribeFromGenre(id, user);
+    		$$invalidate(2, subscriptions = await getSubscriptions(user));
     	};
 
     	const subscribe = async genre => {
