@@ -4,7 +4,7 @@
     import Notification from "./Notification.svelte";
     import MoviesNotificationHeader from "./MoviesNotificationHeader.svelte";
 
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
     import { getNotifications, 
         removeNotification, 
         subscribeToGenre, 
@@ -15,11 +15,31 @@
     let notifications = [];
     let subscriptions = [];
 
+    const endpoint = 'http://127.0.0.1:9000';
+    let notification_source;
+
     onMount(async () => {
-        console.log("user", user);
         notifications = await getNotifications(user);
         subscriptions = await getSubscriptions(user);
     });
+
+    notification_source = new EventSource(endpoint + '/subscribe' + "/" + user, 
+            {
+                heartbeatTimeout: Number.MAX_SAFE_INTEGER
+            }
+        );
+
+    console.log(notifications);
+
+    notification_source.onmessage = function(event) {
+        let notification = JSON.parse(event.data);
+        console.log(notification);
+        console.log(notifications);
+        notifications.push(notification);
+        console.log(notifications);
+    };
+
+    console.log(notifications);
 
     const delNotification = async (id) => {
         let response = await removeNotification(id, user);
@@ -36,6 +56,10 @@
         let response = await subscribeToGenre(genre, user);
         subscriptions = await getSubscriptions(user);
     };
+
+    onDestroy(() => {
+        notification_source.close();
+    });
 
 </script>
 
