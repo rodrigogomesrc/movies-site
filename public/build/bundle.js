@@ -1738,7 +1738,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (73:12) {#each subscriptions as genre, index}
+    // (74:12) {#each subscriptions as genre, index}
     function create_each_block_1(ctx) {
     	let subscription;
     	let current;
@@ -1782,14 +1782,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(73:12) {#each subscriptions as genre, index}",
+    		source: "(74:12) {#each subscriptions as genre, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (81:12) {#each notifications as notification, index}
+    // (82:12) {#each notifications as notification, index}
     function create_each_block(ctx) {
     	let notification;
     	let current;
@@ -1833,7 +1833,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(81:12) {#each notifications as notification, index}",
+    		source: "(82:12) {#each notifications as notification, index}",
     		ctx
     	});
 
@@ -1927,20 +1927,20 @@ var app = (function () {
     			}
 
     			attr_dev(h1, "class", "title");
-    			add_location(h1, file$4, 66, 4, 1861);
-    			add_location(h20, file$4, 69, 12, 1977);
-    			add_location(h21, file$4, 71, 12, 2077);
+    			add_location(h1, file$4, 67, 4, 1861);
+    			add_location(h20, file$4, 70, 12, 1977);
+    			add_location(h21, file$4, 72, 12, 2077);
     			attr_dev(div0, "id", "left-side");
     			attr_dev(div0, "class", "side svelte-debqk4");
-    			add_location(div0, file$4, 68, 8, 1931);
-    			add_location(h22, file$4, 78, 12, 2312);
+    			add_location(div0, file$4, 69, 8, 1931);
+    			add_location(h22, file$4, 79, 12, 2312);
     			attr_dev(div1, "id", "right-side");
     			attr_dev(div1, "class", "side svelte-debqk4");
-    			add_location(div1, file$4, 77, 8, 2265);
+    			add_location(div1, file$4, 78, 8, 2265);
     			attr_dev(div2, "id", "sides-holder");
     			attr_dev(div2, "class", "svelte-debqk4");
-    			add_location(div2, file$4, 67, 4, 1899);
-    			add_location(main, file$4, 65, 0, 1850);
+    			add_location(div2, file$4, 68, 4, 1899);
+    			add_location(main, file$4, 66, 0, 1850);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2100,8 +2100,10 @@ var app = (function () {
     	let notification_source;
 
     	onMount(async () => {
-    		$$invalidate(1, notifications = await getNotifications(user));
-    		$$invalidate(2, subscriptions = await getSubscriptions(user));
+    		let localNotifications = await getNotifications(user);
+    		$$invalidate(1, notifications = [...localNotifications]);
+    		let localSubscriptions = await getSubscriptions(user);
+    		$$invalidate(2, subscriptions = [...localSubscriptions]);
     	});
 
     	notification_source = new EventSource(endpoint + '/subscribe' + "/" + user,
@@ -2109,14 +2111,9 @@ var app = (function () {
     			heartbeatTimeout: Number.MAX_SAFE_INTEGER
     		});
 
-    	console.log(notifications);
-
     	notification_source.onmessage = function (event) {
     		let notification = JSON.parse(event.data);
-    		console.log(notification);
-    		console.log(notifications);
-    		notifications.push(notification);
-    		console.log(notifications);
+    		$$invalidate(1, notifications = [...notifications, notification]);
     	};
 
     	console.log(notifications);

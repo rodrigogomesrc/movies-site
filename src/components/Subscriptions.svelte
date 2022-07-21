@@ -19,9 +19,13 @@
     let notification_source;
 
     onMount(async () => {
-        notifications = await getNotifications(user);
-        subscriptions = await getSubscriptions(user);
+        let localNotifications = await getNotifications(user);
+        notifications = [...localNotifications];
+
+        let localSubscriptions = await getSubscriptions(user);
+        subscriptions = [...localSubscriptions];
     });
+
 
     notification_source = new EventSource(endpoint + '/subscribe' + "/" + user, 
             {
@@ -29,15 +33,12 @@
             }
         );
 
-    console.log(notifications);
-
     notification_source.onmessage = function(event) {
         let notification = JSON.parse(event.data);
-        console.log(notification);
-        console.log(notifications);
-        notifications.push(notification);
-        console.log(notifications);
+        notifications = [...notifications, notification];
     };
+    
+
 
     console.log(notifications);
 
