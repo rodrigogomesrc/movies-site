@@ -430,20 +430,22 @@ var app = (function () {
 
     const file$c = "src/components/Header.svelte";
 
-    function create_fragment$c(ctx) {
-    	let main;
+    // (10:4) {#if logged}
+    function create_if_block$1(ctx) {
     	let header;
     	let div3;
     	let div2;
     	let div0;
     	let t1;
     	let div1;
+    	let t3;
+    	let div4;
+    	let button;
     	let mounted;
     	let dispose;
 
     	const block = {
     		c: function create() {
-    			main = element("main");
     			header = element("header");
     			div3 = element("div");
     			div2 = element("div");
@@ -452,48 +454,103 @@ var app = (function () {
     			t1 = space();
     			div1 = element("div");
     			div1.textContent = "Inscrições";
-    			attr_dev(div0, "class", "header-link svelte-1gt59t3");
-    			add_location(div0, file$c, 10, 16, 177);
-    			attr_dev(div1, "class", "header-link svelte-1gt59t3");
-    			add_location(div1, file$c, 11, 16, 262);
+    			t3 = space();
+    			div4 = element("div");
+    			button = element("button");
+    			button.textContent = "Sair";
+    			attr_dev(div0, "class", "header-link svelte-j40qns");
+    			add_location(div0, file$c, 13, 16, 240);
+    			attr_dev(div1, "class", "header-link svelte-j40qns");
+    			add_location(div1, file$c, 14, 16, 325);
     			attr_dev(div2, "id", "header-content");
-    			attr_dev(div2, "class", "svelte-1gt59t3");
-    			add_location(div2, file$c, 9, 12, 135);
+    			attr_dev(div2, "class", "svelte-j40qns");
+    			add_location(div2, file$c, 12, 12, 198);
     			attr_dev(div3, "id", "header-center");
-    			add_location(div3, file$c, 8, 8, 98);
+    			add_location(div3, file$c, 11, 8, 161);
+    			attr_dev(button, "id", "header-logout");
+    			attr_dev(button, "class", "svelte-j40qns");
+    			add_location(button, file$c, 20, 12, 484);
+    			add_location(div4, file$c, 19, 8, 466);
     			attr_dev(header, "id", "header");
-    			attr_dev(header, "class", "svelte-1gt59t3");
-    			add_location(header, file$c, 7, 3, 69);
-    			add_location(main, file$c, 6, 0, 59);
-    		},
-    		l: function claim(nodes) {
-    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    			attr_dev(header, "class", "svelte-j40qns");
+    			add_location(header, file$c, 10, 3, 132);
     		},
     		m: function mount(target, anchor) {
-    			insert_dev(target, main, anchor);
-    			append_dev(main, header);
+    			insert_dev(target, header, anchor);
     			append_dev(header, div3);
     			append_dev(div3, div2);
     			append_dev(div2, div0);
     			append_dev(div2, t1);
     			append_dev(div2, div1);
+    			append_dev(header, t3);
+    			append_dev(header, div4);
+    			append_dev(div4, button);
 
     			if (!mounted) {
     				dispose = [
-    					listen_dev(div0, "click", /*click_handler*/ ctx[1], false, false, false),
-    					listen_dev(div1, "click", /*click_handler_1*/ ctx[2], false, false, false)
+    					listen_dev(div0, "click", /*click_handler*/ ctx[3], false, false, false),
+    					listen_dev(div1, "click", /*click_handler_1*/ ctx[4], false, false, false),
+    					listen_dev(button, "click", /*click_handler_2*/ ctx[5], false, false, false)
     				];
 
     				mounted = true;
     			}
     		},
     		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(header);
+    			mounted = false;
+    			run_all(dispose);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block$1.name,
+    		type: "if",
+    		source: "(10:4) {#if logged}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment$c(ctx) {
+    	let main;
+    	let if_block = /*logged*/ ctx[1] && create_if_block$1(ctx);
+
+    	const block = {
+    		c: function create() {
+    			main = element("main");
+    			if (if_block) if_block.c();
+    			add_location(main, file$c, 8, 0, 105);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, main, anchor);
+    			if (if_block) if_block.m(main, null);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (/*logged*/ ctx[1]) {
+    				if (if_block) {
+    					if_block.p(ctx, dirty);
+    				} else {
+    					if_block = create_if_block$1(ctx);
+    					if_block.c();
+    					if_block.m(main, null);
+    				}
+    			} else if (if_block) {
+    				if_block.d(1);
+    				if_block = null;
+    			}
+    		},
     		i: noop,
     		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(main);
-    			mounted = false;
-    			run_all(dispose);
+    			if (if_block) if_block.d();
     		}
     	};
 
@@ -512,7 +569,9 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Header', slots, []);
     	let { toggleScreen } = $$props;
-    	const writable_props = ['toggleScreen'];
+    	let { logged } = $$props;
+    	let { logout } = $$props;
+    	const writable_props = ['toggleScreen', 'logged', 'logout'];
 
     	Object.keys($$props).forEach(key => {
     		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Header> was created with unknown prop '${key}'`);
@@ -520,28 +579,33 @@ var app = (function () {
 
     	const click_handler = () => toggleScreen();
     	const click_handler_1 = () => toggleScreen();
+    	const click_handler_2 = () => logout();
 
     	$$self.$$set = $$props => {
     		if ('toggleScreen' in $$props) $$invalidate(0, toggleScreen = $$props.toggleScreen);
+    		if ('logged' in $$props) $$invalidate(1, logged = $$props.logged);
+    		if ('logout' in $$props) $$invalidate(2, logout = $$props.logout);
     	};
 
-    	$$self.$capture_state = () => ({ toggleScreen });
+    	$$self.$capture_state = () => ({ toggleScreen, logged, logout });
 
     	$$self.$inject_state = $$props => {
     		if ('toggleScreen' in $$props) $$invalidate(0, toggleScreen = $$props.toggleScreen);
+    		if ('logged' in $$props) $$invalidate(1, logged = $$props.logged);
+    		if ('logout' in $$props) $$invalidate(2, logout = $$props.logout);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [toggleScreen, click_handler, click_handler_1];
+    	return [toggleScreen, logged, logout, click_handler, click_handler_1, click_handler_2];
     }
 
     class Header extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$c, create_fragment$c, safe_not_equal, { toggleScreen: 0 });
+    		init(this, options, instance$c, create_fragment$c, safe_not_equal, { toggleScreen: 0, logged: 1, logout: 2 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -556,6 +620,14 @@ var app = (function () {
     		if (/*toggleScreen*/ ctx[0] === undefined && !('toggleScreen' in props)) {
     			console.warn("<Header> was created without expected prop 'toggleScreen'");
     		}
+
+    		if (/*logged*/ ctx[1] === undefined && !('logged' in props)) {
+    			console.warn("<Header> was created without expected prop 'logged'");
+    		}
+
+    		if (/*logout*/ ctx[2] === undefined && !('logout' in props)) {
+    			console.warn("<Header> was created without expected prop 'logout'");
+    		}
     	}
 
     	get toggleScreen() {
@@ -563,6 +635,22 @@ var app = (function () {
     	}
 
     	set toggleScreen(value) {
+    		throw new Error("<Header>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get logged() {
+    		throw new Error("<Header>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set logged(value) {
+    		throw new Error("<Header>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get logout() {
+    		throw new Error("<Header>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set logout(value) {
     		throw new Error("<Header>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -1720,7 +1808,7 @@ var app = (function () {
 
     /* src/components/Subscriptions.svelte generated by Svelte v3.49.0 */
 
-    const { console: console_1$1 } = globals;
+    const { console: console_1 } = globals;
 
     const file$4 = "src/components/Subscriptions.svelte";
 
@@ -1738,7 +1826,7 @@ var app = (function () {
     	return child_ctx;
     }
 
-    // (74:12) {#each subscriptions as genre, index}
+    // (73:12) {#each subscriptions as genre, index}
     function create_each_block_1(ctx) {
     	let subscription;
     	let current;
@@ -1782,14 +1870,14 @@ var app = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(74:12) {#each subscriptions as genre, index}",
+    		source: "(73:12) {#each subscriptions as genre, index}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (82:12) {#each notifications as notification, index}
+    // (81:12) {#each notifications as notification, index}
     function create_each_block(ctx) {
     	let notification;
     	let current;
@@ -1833,7 +1921,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(82:12) {#each notifications as notification, index}",
+    		source: "(81:12) {#each notifications as notification, index}",
     		ctx
     	});
 
@@ -1927,20 +2015,20 @@ var app = (function () {
     			}
 
     			attr_dev(h1, "class", "title");
-    			add_location(h1, file$4, 67, 4, 1861);
-    			add_location(h20, file$4, 70, 12, 1977);
-    			add_location(h21, file$4, 72, 12, 2077);
+    			add_location(h1, file$4, 66, 4, 1860);
+    			add_location(h20, file$4, 69, 12, 1976);
+    			add_location(h21, file$4, 71, 12, 2076);
     			attr_dev(div0, "id", "left-side");
     			attr_dev(div0, "class", "side svelte-debqk4");
-    			add_location(div0, file$4, 69, 8, 1931);
-    			add_location(h22, file$4, 79, 12, 2312);
+    			add_location(div0, file$4, 68, 8, 1930);
+    			add_location(h22, file$4, 78, 12, 2311);
     			attr_dev(div1, "id", "right-side");
     			attr_dev(div1, "class", "side svelte-debqk4");
-    			add_location(div1, file$4, 78, 8, 2265);
+    			add_location(div1, file$4, 77, 8, 2264);
     			attr_dev(div2, "id", "sides-holder");
     			attr_dev(div2, "class", "svelte-debqk4");
-    			add_location(div2, file$4, 68, 4, 1899);
-    			add_location(main, file$4, 66, 0, 1850);
+    			add_location(div2, file$4, 67, 4, 1898);
+    			add_location(main, file$4, 65, 0, 1849);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2140,7 +2228,7 @@ var app = (function () {
     	const writable_props = ['user'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1$1.warn(`<Subscriptions> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Subscriptions> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
@@ -2206,7 +2294,7 @@ var app = (function () {
     		const props = options.props || {};
 
     		if (/*user*/ ctx[0] === undefined && !('user' in props)) {
-    			console_1$1.warn("<Subscriptions> was created without expected prop 'user'");
+    			console_1.warn("<Subscriptions> was created without expected prop 'user'");
     		}
     	}
 
@@ -2227,8 +2315,10 @@ var app = (function () {
     	let main;
     	let div;
     	let input0;
+    	let br0;
     	let t0;
     	let input1;
+    	let br1;
     	let t1;
     	let button;
     	let mounted;
@@ -2239,22 +2329,30 @@ var app = (function () {
     			main = element("main");
     			div = element("div");
     			input0 = element("input");
+    			br0 = element("br");
     			t0 = space();
     			input1 = element("input");
+    			br1 = element("br");
     			t1 = space();
     			button = element("button");
     			button.textContent = "Entrar";
     			attr_dev(input0, "type", "text");
     			attr_dev(input0, "id", "user-login-input");
     			attr_dev(input0, "placeholder", "Usuário");
+    			attr_dev(input0, "class", "svelte-1apdnrc");
     			add_location(input0, file$3, 16, 8, 222);
+    			add_location(br0, file$3, 16, 90, 304);
     			attr_dev(input1, "type", "password");
     			attr_dev(input1, "id", "user-login-password");
     			attr_dev(input1, "placeholder", "Senha");
-    			add_location(input1, file$3, 17, 8, 313);
+    			attr_dev(input1, "class", "svelte-1apdnrc");
+    			add_location(input1, file$3, 17, 8, 317);
+    			add_location(br1, file$3, 17, 99, 408);
     			attr_dev(button, "id", "user-login-button");
-    			add_location(button, file$3, 18, 8, 413);
+    			attr_dev(button, "class", "svelte-1apdnrc");
+    			add_location(button, file$3, 18, 8, 421);
     			attr_dev(div, "id", "user-login");
+    			attr_dev(div, "class", "svelte-1apdnrc");
     			add_location(div, file$3, 15, 4, 192);
     			add_location(main, file$3, 14, 0, 181);
     		},
@@ -2266,9 +2364,11 @@ var app = (function () {
     			append_dev(main, div);
     			append_dev(div, input0);
     			set_input_value(input0, /*user*/ ctx[0]);
+    			append_dev(div, br0);
     			append_dev(div, t0);
     			append_dev(div, input1);
     			set_input_value(input1, /*password*/ ctx[1]);
+    			append_dev(div, br1);
     			append_dev(div, t1);
     			append_dev(div, button);
 
@@ -2399,11 +2499,9 @@ var app = (function () {
     }
 
     /* src/components/Main.svelte generated by Svelte v3.49.0 */
-
-    const { console: console_1 } = globals;
     const file$2 = "src/components/Main.svelte";
 
-    // (34:8) {:else}
+    // (24:8) {:else}
     function create_else_block(ctx) {
     	let login_1;
     	let current;
@@ -2421,7 +2519,11 @@ var app = (function () {
     			mount_component(login_1, target, anchor);
     			current = true;
     		},
-    		p: noop,
+    		p: function update(ctx, dirty) {
+    			const login_1_changes = {};
+    			if (dirty & /*login*/ 8) login_1_changes.login = /*login*/ ctx[3];
+    			login_1.$set(login_1_changes);
+    		},
     		i: function intro(local) {
     			if (current) return;
     			transition_in(login_1.$$.fragment, local);
@@ -2440,20 +2542,20 @@ var app = (function () {
     		block,
     		id: create_else_block.name,
     		type: "else",
-    		source: "(34:8) {:else}",
+    		source: "(24:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (27:8) {#if logged}
+    // (17:8) {#if logged}
     function create_if_block(ctx) {
     	let t;
     	let if_block1_anchor;
     	let current;
-    	let if_block0 = /*screen*/ ctx[0] === "movies" && create_if_block_2(ctx);
-    	let if_block1 = /*screen*/ ctx[0] === "subscriptions" && create_if_block_1(ctx);
+    	let if_block0 = /*screen*/ ctx[2] === "movies" && create_if_block_2(ctx);
+    	let if_block1 = /*screen*/ ctx[2] === "subscriptions" && create_if_block_1(ctx);
 
     	const block = {
     		c: function create() {
@@ -2470,11 +2572,11 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (/*screen*/ ctx[0] === "movies") {
+    			if (/*screen*/ ctx[2] === "movies") {
     				if (if_block0) {
     					if_block0.p(ctx, dirty);
 
-    					if (dirty & /*screen*/ 1) {
+    					if (dirty & /*screen*/ 4) {
     						transition_in(if_block0, 1);
     					}
     				} else {
@@ -2493,11 +2595,11 @@ var app = (function () {
     				check_outros();
     			}
 
-    			if (/*screen*/ ctx[0] === "subscriptions") {
+    			if (/*screen*/ ctx[2] === "subscriptions") {
     				if (if_block1) {
     					if_block1.p(ctx, dirty);
 
-    					if (dirty & /*screen*/ 1) {
+    					if (dirty & /*screen*/ 4) {
     						transition_in(if_block1, 1);
     					}
     				} else {
@@ -2539,20 +2641,20 @@ var app = (function () {
     		block,
     		id: create_if_block.name,
     		type: "if",
-    		source: "(27:8) {#if logged}",
+    		source: "(17:8) {#if logged}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (28:8) {#if screen === "movies"}
+    // (18:8) {#if screen === "movies"}
     function create_if_block_2(ctx) {
     	let movies;
     	let current;
 
     	movies = new Movies({
-    			props: { user: /*user*/ ctx[1] },
+    			props: { user: /*user*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -2566,7 +2668,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const movies_changes = {};
-    			if (dirty & /*user*/ 2) movies_changes.user = /*user*/ ctx[1];
+    			if (dirty & /*user*/ 1) movies_changes.user = /*user*/ ctx[0];
     			movies.$set(movies_changes);
     		},
     		i: function intro(local) {
@@ -2587,20 +2689,20 @@ var app = (function () {
     		block,
     		id: create_if_block_2.name,
     		type: "if",
-    		source: "(28:8) {#if screen === \\\"movies\\\"}",
+    		source: "(18:8) {#if screen === \\\"movies\\\"}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (31:8) {#if screen === "subscriptions"}
+    // (21:8) {#if screen === "subscriptions"}
     function create_if_block_1(ctx) {
     	let subscriptions;
     	let current;
 
     	subscriptions = new Subscriptions({
-    			props: { user: /*user*/ ctx[1] },
+    			props: { user: /*user*/ ctx[0] },
     			$$inline: true
     		});
 
@@ -2614,7 +2716,7 @@ var app = (function () {
     		},
     		p: function update(ctx, dirty) {
     			const subscriptions_changes = {};
-    			if (dirty & /*user*/ 2) subscriptions_changes.user = /*user*/ ctx[1];
+    			if (dirty & /*user*/ 1) subscriptions_changes.user = /*user*/ ctx[0];
     			subscriptions.$set(subscriptions_changes);
     		},
     		i: function intro(local) {
@@ -2635,7 +2737,7 @@ var app = (function () {
     		block,
     		id: create_if_block_1.name,
     		type: "if",
-    		source: "(31:8) {#if screen === \\\"subscriptions\\\"}",
+    		source: "(21:8) {#if screen === \\\"subscriptions\\\"}",
     		ctx
     	});
 
@@ -2652,7 +2754,7 @@ var app = (function () {
     	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*logged*/ ctx[2]) return 0;
+    		if (/*logged*/ ctx[1]) return 0;
     		return 1;
     	}
 
@@ -2666,8 +2768,8 @@ var app = (function () {
     			if_block.c();
     			attr_dev(div, "id", "container");
     			attr_dev(div, "class", "svelte-scxz3i");
-    			add_location(div, file$2, 25, 4, 463);
-    			add_location(main, file$2, 24, 0, 452);
+    			add_location(div, file$2, 15, 4, 278);
+    			add_location(main, file$2, 14, 0, 267);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2734,59 +2836,51 @@ var app = (function () {
     function instance$2($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Main', slots, []);
-    	let user = "";
-    	let logged = false;
+    	let { user } = $$props;
+    	let { logged = false } = $$props;
     	let { screen } = $$props;
-
-    	const login = loginUser => {
-    		$$invalidate(1, user = loginUser);
-    		$$invalidate(2, logged = true);
-    		onLogged();
-    	};
-
-    	const onLogged = () => {
-    		console.log("user", user);
-    	};
-
-    	const writable_props = ['screen'];
+    	let { login } = $$props;
+    	const writable_props = ['user', 'logged', 'screen', 'login'];
 
     	Object.keys($$props).forEach(key => {
-    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console_1.warn(`<Main> was created with unknown prop '${key}'`);
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Main> was created with unknown prop '${key}'`);
     	});
 
     	$$self.$$set = $$props => {
-    		if ('screen' in $$props) $$invalidate(0, screen = $$props.screen);
+    		if ('user' in $$props) $$invalidate(0, user = $$props.user);
+    		if ('logged' in $$props) $$invalidate(1, logged = $$props.logged);
+    		if ('screen' in $$props) $$invalidate(2, screen = $$props.screen);
+    		if ('login' in $$props) $$invalidate(3, login = $$props.login);
     	};
 
     	$$self.$capture_state = () => ({
     		Movies,
     		Subscriptions,
     		Login,
-    		onDestroy,
     		user,
     		logged,
     		screen,
-    		login,
-    		onLogged
+    		login
     	});
 
     	$$self.$inject_state = $$props => {
-    		if ('user' in $$props) $$invalidate(1, user = $$props.user);
-    		if ('logged' in $$props) $$invalidate(2, logged = $$props.logged);
-    		if ('screen' in $$props) $$invalidate(0, screen = $$props.screen);
+    		if ('user' in $$props) $$invalidate(0, user = $$props.user);
+    		if ('logged' in $$props) $$invalidate(1, logged = $$props.logged);
+    		if ('screen' in $$props) $$invalidate(2, screen = $$props.screen);
+    		if ('login' in $$props) $$invalidate(3, login = $$props.login);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [screen, user, logged, login];
+    	return [user, logged, screen, login];
     }
 
     class Main extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { screen: 0 });
+    		init(this, options, instance$2, create_fragment$2, safe_not_equal, { user: 0, logged: 1, screen: 2, login: 3 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
@@ -2798,9 +2892,33 @@ var app = (function () {
     		const { ctx } = this.$$;
     		const props = options.props || {};
 
-    		if (/*screen*/ ctx[0] === undefined && !('screen' in props)) {
-    			console_1.warn("<Main> was created without expected prop 'screen'");
+    		if (/*user*/ ctx[0] === undefined && !('user' in props)) {
+    			console.warn("<Main> was created without expected prop 'user'");
     		}
+
+    		if (/*screen*/ ctx[2] === undefined && !('screen' in props)) {
+    			console.warn("<Main> was created without expected prop 'screen'");
+    		}
+
+    		if (/*login*/ ctx[3] === undefined && !('login' in props)) {
+    			console.warn("<Main> was created without expected prop 'login'");
+    		}
+    	}
+
+    	get user() {
+    		throw new Error("<Main>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set user(value) {
+    		throw new Error("<Main>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get logged() {
+    		throw new Error("<Main>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set logged(value) {
+    		throw new Error("<Main>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
 
     	get screen() {
@@ -2808,6 +2926,14 @@ var app = (function () {
     	}
 
     	set screen(value) {
+    		throw new Error("<Main>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	get login() {
+    		throw new Error("<Main>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set login(value) {
     		throw new Error("<Main>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
@@ -2823,12 +2949,21 @@ var app = (function () {
     	let current;
 
     	header = new Header({
-    			props: { toggleScreen: /*toggleScreen*/ ctx[1] },
+    			props: {
+    				toggleScreen: /*toggleScreen*/ ctx[3],
+    				logged: /*logged*/ ctx[1],
+    				logout: /*onLogout*/ ctx[5]
+    			},
     			$$inline: true
     		});
 
     	main0 = new Main({
-    			props: { screen: /*openedScreen*/ ctx[0] },
+    			props: {
+    				screen: /*openedScreen*/ ctx[0],
+    				logged: /*logged*/ ctx[1],
+    				user: /*user*/ ctx[2],
+    				login: /*login*/ ctx[4]
+    			},
     			$$inline: true
     		});
 
@@ -2838,7 +2973,7 @@ var app = (function () {
     			create_component(header.$$.fragment);
     			t = space();
     			create_component(main0.$$.fragment);
-    			add_location(main1, file$1, 25, 0, 497);
+    			add_location(main1, file$1, 58, 0, 1229);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2851,8 +2986,13 @@ var app = (function () {
     			current = true;
     		},
     		p: function update(ctx, [dirty]) {
+    			const header_changes = {};
+    			if (dirty & /*logged*/ 2) header_changes.logged = /*logged*/ ctx[1];
+    			header.$set(header_changes);
     			const main0_changes = {};
     			if (dirty & /*openedScreen*/ 1) main0_changes.screen = /*openedScreen*/ ctx[0];
+    			if (dirty & /*logged*/ 2) main0_changes.logged = /*logged*/ ctx[1];
+    			if (dirty & /*user*/ 4) main0_changes.user = /*user*/ ctx[2];
     			main0.$set(main0_changes);
     		},
     		i: function intro(local) {
@@ -2888,6 +3028,8 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Home', slots, []);
     	let openedScreen = "subscriptions";
+    	let logged = false;
+    	let user = "";
 
     	const openMovieScreen = () => {
     		$$invalidate(0, openedScreen = "movies");
@@ -2905,6 +3047,36 @@ var app = (function () {
     		}
     	};
 
+    	const login = loginUser => {
+    		$$invalidate(2, user = loginUser);
+    		$$invalidate(1, logged = true);
+    		onLogged();
+    	};
+
+    	const onLogged = () => {
+    		sessionStorage.setItem('logged', 'true');
+    		sessionStorage.setItem('user', user);
+    	};
+
+    	const onLogout = () => {
+    		sessionStorage.setItem('logged', 'false');
+    		$$invalidate(2, user = "");
+    		$$invalidate(1, logged = false);
+    	};
+
+    	onMount(() => {
+    		let loggedState = sessionStorage.getItem('logged');
+    		let loggedUser = sessionStorage.getItem('user');
+
+    		if (loggedState == 'true') {
+    			$$invalidate(1, logged = true);
+    		}
+
+    		if (loggedUser) {
+    			$$invalidate(2, user = loggedUser);
+    		}
+    	});
+
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -2914,21 +3086,29 @@ var app = (function () {
     	$$self.$capture_state = () => ({
     		Header,
     		Main,
+    		onMount,
     		openedScreen,
+    		logged,
+    		user,
     		openMovieScreen,
     		openSubscriptionScreen,
-    		toggleScreen
+    		toggleScreen,
+    		login,
+    		onLogged,
+    		onLogout
     	});
 
     	$$self.$inject_state = $$props => {
     		if ('openedScreen' in $$props) $$invalidate(0, openedScreen = $$props.openedScreen);
+    		if ('logged' in $$props) $$invalidate(1, logged = $$props.logged);
+    		if ('user' in $$props) $$invalidate(2, user = $$props.user);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [openedScreen, toggleScreen];
+    	return [openedScreen, logged, user, toggleScreen, login, onLogout];
     }
 
     class Home extends SvelteComponentDev {

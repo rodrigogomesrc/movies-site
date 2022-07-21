@@ -3,23 +3,13 @@
     import Movies from './Movies.svelte';
     import Subscriptions from './Subscriptions.svelte';
     import Login from './Login.svelte';
-    import {onDestroy} from 'svelte';
 
-    let user = "";
-    let logged = false;
+    export let user;
+    export let logged = false;
     export let screen;
+    export let login;
 
-    const login = (loginUser) => {
-        user = loginUser;
-        logged = true;
-        onLogged();
-    }
-
-    const onLogged = () => {
-        console.log("user", user);
-    }
-
-
+    
 </script>
 
 <main>
